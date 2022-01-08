@@ -1,10 +1,18 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
-import './LoginForm.css';
+import '../RegistrationForm/Registration.css';
 import {API_BASE_URL, ACCESS_TOKEN_NAME} from '../../constants/apiConstants';
 import { withRouter } from "react-router-dom";
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 function LoginForm(props) {
+
+    useEffect(() => {
+        Aos.init({offset: 400,
+            duration: 800});
+      }, []);
+
     const [state , setState] = useState({
         email : "",
         password : "",
@@ -55,46 +63,45 @@ function LoginForm(props) {
         props.updateTitle('Register');
     }
     return(
-        <div className="card col-12 col-lg-4 login-card mt-2 hv-center">
-            <form>
-                <div className="form-group text-left">
-                <label htmlFor="exampleInputEmail1">Email address</label>
-                <input type="email" 
-                       className="form-control" 
-                       id="email" 
-                       aria-describedby="emailHelp" 
-                       placeholder="Enter email" 
-                       value={state.email}
-                       onChange={handleChange}
-                />
-                <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
-                </div>
-                <div className="form-group text-left">
-                <label htmlFor="exampleInputPassword1">Password</label>
-                <input type="password" 
-                       className="form-control" 
-                       id="password" 
-                       placeholder="Password"
-                       value={state.password}
-                       onChange={handleChange} 
-                />
-                </div>
-                <div className="form-check">
-                </div>
-                <button 
-                    type="submit" 
-                    className="btn btn-primary"
-                    onClick={handleSubmitClick}
-                >Submit</button>
-            </form>
-            <div className="alert alert-success mt-2" style={{display: state.successMessage ? 'block' : 'none' }} role="alert">
+        <div className="bodyofform" style={{ display: 'flex' }}>
+        <div class="containerofform">
+            <div class="contentofform" data-aos='fade-left'>
+                <form>
+                    <div class="user-details">
+                        <div class="input-box">
+                            <span class="details">Email</span>
+                            <input type="email" id="email"
+                                aria-describedby="emailHelp"
+                                placeholder="Enter email"
+                                value={state.email}
+                                onChange={handleChange} required />
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Password</span>
+                            <input type="text" id="password"
+                                placeholder="Password"
+                                value={state.password}
+                                onChange={handleChange} required />
+                        </div>
+                    </div>
+
+                    <div class="button">
+                        <input type="submit" value="Register" onClick={handleSubmitClick}
+                        />
+                    </div>
+                </form>
+                <div className="already">
+                <span>New Here? </span>
+                <span className="loginText" onClick={() => redirectToRegister()}>Register Here!</span> 
+            </div>
+                <div className="alert alert-success mt-2" style={{display: state.successMessage ? 'block' : 'none' }} role="alert">
                 {state.successMessage}
             </div>
-            <div className="registerMessage">
-                <span>Dont have an account? </span>
-                <span className="loginText" onClick={() => redirectToRegister()}>Register</span> 
+            
+
             </div>
         </div>
+    </div>
     )
 }
 
